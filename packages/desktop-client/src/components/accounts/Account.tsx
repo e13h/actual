@@ -655,14 +655,16 @@ class AccountInternal extends PureComponent<
         if (accountId && res?.length > 0) {
           this.props.dispatch(
             pushModal({
-              name: 'import-transactions',
-              options: {
-                accountId,
-                filename: res[0],
-                onImported: (didChange: boolean) => {
-                  if (didChange) {
-                    this.fetchTransactions();
-                  }
+              modal: {
+                name: 'import-transactions',
+                options: {
+                  accountId,
+                  filename: res[0],
+                  onImported: (didChange: boolean) => {
+                    if (didChange) {
+                      this.fetchTransactions();
+                    }
+                  },
                 },
               },
             }),
@@ -826,9 +828,11 @@ class AccountInternal extends PureComponent<
       case 'link':
         this.props.dispatch(
           pushModal({
-            name: 'add-account',
-            options: {
-              upgradingAccountId: accountId,
+            modal: {
+              name: 'add-account',
+              options: {
+                upgradingAccountId: accountId,
+              },
             },
           }),
         );
@@ -836,11 +840,13 @@ class AccountInternal extends PureComponent<
       case 'unlink':
         this.props.dispatch(
           pushModal({
-            name: 'confirm-unlink-account',
-            options: {
-              accountName: account.name,
-              onUnlink: () => {
-                this.props.dispatch(unlinkAccount({ id: accountId }));
+            modal: {
+              name: 'confirm-unlink-account',
+              options: {
+                accountName: account.name,
+                onUnlink: () => {
+                  this.props.dispatch(unlinkAccount({ id: accountId }));
+                },
               },
             },
           }),
@@ -1240,12 +1246,14 @@ class AccountInternal extends PureComponent<
     if (transactions.length > 0) {
       this.props.dispatch(
         pushModal({
-          name: 'confirm-transaction-edit',
-          options: {
-            onConfirm: () => {
-              onConfirm(ids);
+          modal: {
+            name: 'confirm-transaction-edit',
+            options: {
+              onConfirm: () => {
+                onConfirm(ids);
+              },
+              confirmReason,
             },
-            confirmReason,
           },
         }),
       );
@@ -1343,7 +1351,9 @@ class AccountInternal extends PureComponent<
       ],
     } satisfies NewRuleEntity;
 
-    this.props.dispatch(pushModal({ name: 'edit-rule', options: { rule } }));
+    this.props.dispatch(
+      pushModal({ modal: { name: 'edit-rule', options: { rule } } }),
+    );
   };
 
   onSetTransfer = async (ids: string[]) => {
@@ -1876,7 +1886,9 @@ class AccountInternal extends PureComponent<
                       <EmptyMessage
                         onAdd={() =>
                           this.props.dispatch(
-                            replaceModal({ name: 'add-account', options: {} }),
+                            replaceModal({
+                              modal: { name: 'add-account', options: {} },
+                            }),
                           )
                         }
                       />

@@ -537,11 +537,13 @@ export const openAccountCloseModal = createAppAsyncThunk(
 
     dispatch(
       pushModal({
-        name: 'close-account',
-        options: {
-          account,
-          balance,
-          canDelete: numTransactions === 0,
+        modal: {
+          name: 'close-account',
+          options: {
+            account,
+            balance,
+            canDelete: numTransactions === 0,
+          },
         },
       }),
     );
@@ -558,9 +560,13 @@ const initialState: ModalsState = {
   isHidden: false,
 };
 
-type PushModalPayload = Modal;
+type PushModalPayload = {
+  modal: Modal;
+};
 
-type ReplaceModalPayload = Modal;
+type ReplaceModalPayload = {
+  modal: Modal;
+};
 
 type CollapseModalPayload = {
   rootModalName: Modal['name'];
@@ -571,7 +577,7 @@ const modalsSlice = createSlice({
   initialState,
   reducers: {
     pushModal(state, action: PayloadAction<PushModalPayload>) {
-      const modal = action.payload;
+      const modal = action.payload.modal;
       // special case: don't show the keyboard shortcuts modal if there's already a modal open
       if (
         modal.name.endsWith('keyboard-shortcuts') &&
@@ -585,7 +591,7 @@ const modalsSlice = createSlice({
       state.modalStack = [...state.modalStack, modal];
     },
     replaceModal(state, action: PayloadAction<ReplaceModalPayload>) {
-      const modal = action.payload;
+      const modal = action.payload.modal;
       state.modalStack = [modal];
     },
     popModal(state) {

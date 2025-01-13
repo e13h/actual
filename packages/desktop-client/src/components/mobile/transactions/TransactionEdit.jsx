@@ -558,10 +558,12 @@ const TransactionEditInner = memo(function TransactionEditInner({
       // make this more appropriate?
       dispatch(
         pushModal({
-          name: 'confirm-transaction-edit',
-          options: {
-            onConfirm: onConfirmSave,
-            confirmReason: 'editReconciled',
+          modal: {
+            name: 'confirm-transaction-edit',
+            options: {
+              onConfirm: onConfirmSave,
+              confirmReason: 'editReconciled',
+            },
           },
         }),
       );
@@ -605,15 +607,19 @@ const TransactionEditInner = memo(function TransactionEditInner({
           case 'category':
             dispatch(
               pushModal({
-                name: 'category-autocomplete',
-                options: {
-                  categoryGroups,
-                  month: monthUtils.monthFromDate(unserializedTransaction.date),
-                  onSelect: categoryId => {
-                    onUpdateInner(transactionToEdit, name, categoryId);
-                  },
-                  onClose: () => {
-                    onClearActiveEdit();
+                modal: {
+                  name: 'category-autocomplete',
+                  options: {
+                    categoryGroups,
+                    month: monthUtils.monthFromDate(
+                      unserializedTransaction.date,
+                    ),
+                    onSelect: categoryId => {
+                      onUpdateInner(transactionToEdit, name, categoryId);
+                    },
+                    onClose: () => {
+                      onClearActiveEdit();
+                    },
                   },
                 },
               }),
@@ -622,13 +628,15 @@ const TransactionEditInner = memo(function TransactionEditInner({
           case 'account':
             dispatch(
               pushModal({
-                name: 'account-autocomplete',
-                options: {
-                  onSelect: accountId => {
-                    onUpdateInner(transactionToEdit, name, accountId);
-                  },
-                  onClose: () => {
-                    onClearActiveEdit();
+                modal: {
+                  name: 'account-autocomplete',
+                  options: {
+                    onSelect: accountId => {
+                      onUpdateInner(transactionToEdit, name, accountId);
+                    },
+                    onClose: () => {
+                      onClearActiveEdit();
+                    },
                   },
                 },
               }),
@@ -637,13 +645,15 @@ const TransactionEditInner = memo(function TransactionEditInner({
           case 'payee':
             dispatch(
               pushModal({
-                name: 'payee-autocomplete',
-                options: {
-                  onSelect: payeeId => {
-                    onUpdateInner(transactionToEdit, name, payeeId);
-                  },
-                  onClose: () => {
-                    onClearActiveEdit();
+                modal: {
+                  name: 'payee-autocomplete',
+                  options: {
+                    onSelect: payeeId => {
+                      onUpdateInner(transactionToEdit, name, payeeId);
+                    },
+                    onClose: () => {
+                      onClearActiveEdit();
+                    },
                   },
                 },
               }),
@@ -652,15 +662,19 @@ const TransactionEditInner = memo(function TransactionEditInner({
           default:
             dispatch(
               pushModal({
-                name: 'edit-field',
-                options: {
-                  name,
-                  month: monthUtils.monthFromDate(unserializedTransaction.date),
-                  onSubmit: (name, value) => {
-                    onUpdateInner(transactionToEdit, name, value);
-                  },
-                  onClose: () => {
-                    onClearActiveEdit();
+                modal: {
+                  name: 'edit-field',
+                  options: {
+                    name,
+                    month: monthUtils.monthFromDate(
+                      unserializedTransaction.date,
+                    ),
+                    onSubmit: (name, value) => {
+                      onUpdateInner(transactionToEdit, name, value);
+                    },
+                    onClose: () => {
+                      onClearActiveEdit();
+                    },
                   },
                 },
               }),
@@ -688,18 +702,20 @@ const TransactionEditInner = memo(function TransactionEditInner({
       const onConfirmDelete = () => {
         dispatch(
           pushModal({
-            name: 'confirm-transaction-delete',
-            options: {
-              onConfirm: () => {
-                onDelete(id);
+            modal: {
+              name: 'confirm-transaction-delete',
+              options: {
+                onConfirm: () => {
+                  onDelete(id);
 
-                if (unserializedTransaction.id !== id) {
-                  // Only a child transaction was deleted.
-                  onClearActiveEdit();
-                  return;
-                }
+                  if (unserializedTransaction.id !== id) {
+                    // Only a child transaction was deleted.
+                    onClearActiveEdit();
+                    return;
+                  }
 
-                navigate(-1);
+                  navigate(-1);
+                },
               },
             },
           }),
@@ -709,10 +725,12 @@ const TransactionEditInner = memo(function TransactionEditInner({
       if (unserializedTransaction.reconciled) {
         dispatch(
           pushModal({
-            name: 'confirm-transaction-edit',
-            options: {
-              onConfirm: onConfirmDelete,
-              confirmReason: 'deleteReconciled',
+            modal: {
+              name: 'confirm-transaction-edit',
+              options: {
+                onConfirm: onConfirmDelete,
+                confirmReason: 'deleteReconciled',
+              },
             },
           }),
         );
