@@ -7,6 +7,8 @@ import { envelopeBudget } from '#spreadsheet/bindings';
 
 import { useEnvelopeSheetValue } from './EnvelopeBudgetComponents';
 
+import { useFeatureFlag } from '#hooks/useFeatureFlag';
+
 type IncomeMenuProps = {
   categoryId: string;
   month: string;
@@ -23,6 +25,7 @@ export function IncomeMenu({
   onClose,
 }: IncomeMenuProps) {
   const { t } = useTranslation();
+  const isImprovedAutoHoldEnabled = useFeatureFlag('improvedAutoHold');
   const carryover = useEnvelopeSheetValue(
     envelopeBudget.catCarryover(categoryId),
   );
@@ -48,10 +51,16 @@ export function IncomeMenu({
           }
         }}
         items={[
-          {
-            name: 'carryover',
-            text: carryover ? t('Disable auto hold') : t('Enable auto hold'),
-          },
+          ...(!isImprovedAutoHoldEnabled
+            ? [
+                {
+                  name: 'carryover',
+                  text: carryover
+                    ? t('Disable auto hold')
+                    : t('Enable auto hold'),
+                },
+              ]
+            : []),
           {
             name: 'view',
             text: t('View transactions'),
