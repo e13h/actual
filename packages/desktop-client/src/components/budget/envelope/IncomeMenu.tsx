@@ -3,11 +3,10 @@ import { useTranslation } from 'react-i18next';
 import { Menu } from '@actual-app/components/menu';
 import type { CategoryEntity } from '@actual-app/core/types/models';
 
+import { useFeatureFlag } from '#hooks/useFeatureFlag';
 import { envelopeBudget } from '#spreadsheet/bindings';
 
 import { useEnvelopeSheetValue } from './EnvelopeBudgetComponents';
-
-import { useFeatureFlag } from '#hooks/useFeatureFlag';
 
 type IncomeMenuProps = {
   categoryId: string;
