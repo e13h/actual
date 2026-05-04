@@ -74,7 +74,7 @@ async function getTotalBudgetsAfterMonth(afterMonth: string): Promise<number> {
 export async function applyFutureBudgetHold(
   futureMonth: string,
 ): Promise<void> {
-  if (isReflectBudget() || !isFutureMonth(futureMonth)) {
+  if (isTrackingBudget() || !isFutureMonth(futureMonth)) {
     return;
   }
 
