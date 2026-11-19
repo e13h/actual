@@ -57,6 +57,7 @@ import { LoadingIndicator } from './LoadingIndicator';
 import { AgeOfMoneyCard } from './reports/AgeOfMoneyCard';
 import { BalanceForecastCard } from './reports/BalanceForecastCard';
 import { BudgetAnalysisCard } from './reports/BudgetAnalysisCard';
+import { BudgetPlanCard } from './reports/BudgetPlanCard';
 import { CalendarCard } from './reports/CalendarCard';
 import { CashFlowCard } from './reports/CashFlowCard';
 import { CrossoverCard } from './reports/CrossoverCard';
@@ -109,6 +110,7 @@ export function Overview({ dashboard }: OverviewProps) {
   const budgetAnalysisReportEnabled = useFeatureFlag('budgetAnalysisReport');
   const balanceForecastReportEnabled = useFeatureFlag('balanceForecastReport');
   const monteCarloReportEnabled = useFeatureFlag('monteCarloReport');
+  const budgetPlanReportEnabled = useFeatureFlag('budgetPlanReport');
 
   const formulaMode = useFeatureFlag('formulaMode');
 
@@ -610,6 +612,14 @@ export function Overview({ dashboard }: OverviewProps) {
                                   },
                                 ]
                               : []),
+                            ...(budgetPlanReportEnabled
+                              ? [
+                                  {
+                                    name: 'budget-plan-card' as const,
+                                    text: t('Budget plan'),
+                                  },
+                                ]
+                              : []),
                             ...(balanceForecastReportEnabled
                               ? [
                                   {
@@ -855,6 +865,16 @@ export function Overview({ dashboard }: OverviewProps) {
                         ) : widget.type === 'budget-analysis-card' &&
                           budgetAnalysisReportEnabled ? (
                           <BudgetAnalysisCard
+                            widgetId={item.i}
+                            isEditing={isEditing}
+                            meta={widget.meta}
+                            onMetaChange={newMeta =>
+                              onMetaChange(item, newMeta)
+                            }
+                          />
+                        ) : widget.type === 'budget-plan-card' &&
+                          budgetPlanReportEnabled ? (
+                          <BudgetPlanCard
                             widgetId={item.i}
                             isEditing={isEditing}
                             meta={widget.meta}

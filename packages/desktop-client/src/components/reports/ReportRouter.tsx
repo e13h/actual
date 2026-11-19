@@ -8,6 +8,7 @@ import { useFeatureFlag } from '#hooks/useFeatureFlag';
 import { AgeOfMoney } from './reports/AgeOfMoney';
 import { BalanceForecast } from './reports/BalanceForecast';
 import { BudgetAnalysis } from './reports/BudgetAnalysis';
+import { BudgetPlan } from './reports/BudgetPlan';
 import { Calendar } from './reports/Calendar';
 import { CashFlow } from './reports/CashFlow';
 import { Crossover } from './reports/Crossover';
@@ -37,6 +38,7 @@ export function ReportRouter() {
   const budgetAnalysisReportEnabled = useFeatureFlag('budgetAnalysisReport');
   const sankeyReportEnabled = useFeatureFlag('sankeyReport');
   const monteCarloReportEnabled = useFeatureFlag('monteCarloReport');
+  const budgetPlanReportEnabled = useFeatureFlag('budgetPlanReport');
 
   return (
     <Routes>
@@ -138,6 +140,26 @@ export function ReportRouter() {
           </ReportBoundary>
         }
       />
+      {budgetPlanReportEnabled && (
+        <>
+          <Route
+            path="/budget-plan"
+            element={
+              <ReportBoundary>
+                <BudgetPlan />
+              </ReportBoundary>
+            }
+          />
+          <Route
+            path="/budget-plan/:id"
+            element={
+              <ReportBoundary>
+                <BudgetPlan />
+              </ReportBoundary>
+            }
+          />
+        </>
+      )}
       {budgetAnalysisReportEnabled && (
         <>
           <Route

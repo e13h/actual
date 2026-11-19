@@ -277,6 +277,9 @@ export function ExperimentalFeatures() {
       >
         <Trans>Monte Carlo Analysis Report</Trans>
       </FeatureToggle>
+      <FeatureToggle flag="budgetPlanReport">
+        <Trans>Budget Plan Report</Trans>
+      </FeatureToggle>
       {isUsingServer && (
         <FeatureToggle
           flag="enableBanking"
